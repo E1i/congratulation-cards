@@ -26,7 +26,6 @@ class API {
 		if (_id <= 6) {
 			//local saved data, always working
 			const personCard = persons.find((pers) => pers.id === _id);
-			console.log('personCard', personCard);
 			return personCard;
 		} else {
 			//sync with firebase
@@ -34,7 +33,6 @@ class API {
 			const doc = await docRef.get();
 			if (doc?.exists) {
 				const personCard = doc.data();
-				console.log('personCard', personCard);
 				return personCard;
 			}
 		}

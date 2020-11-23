@@ -5,12 +5,12 @@ import PersonCard from './components/PersonCard.vue';
 
 const routes = [
 	{
-		path: '/',
+		path: '/congratulation-cards/',
 		name: 'HelloWorld',
 		component: HelloWorld,
 	},
 	{
-		path: '/:id',
+		path: '/congratulation-cards/:id',
 		name: 'PersonCard',
 		component: PersonCard,
 		props: true,
