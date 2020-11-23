@@ -1,42 +1,40 @@
 <script>
 import { reactive, watch } from 'vue';
 import resovlePath from '../imgPathResolver';
-import fetchPersonData from '../findPerson';
+import Persons from '../firebase';
 
 export default {
 	name: 'PersonCard',
 	props: {
-		id: Number,
+		id: [Number, String],
 	},
 	setup(props) {
-		const {
-			firstName,
-			lastName,
-			text,
-			position,
-			imgSrc,
-			imgOffset,
-		} = fetchPersonData(props.id);
-		const path = resovlePath(imgSrc);
 		const person = reactive({
-			firstName,
-			lastName,
-			text,
-			position,
-			imgOffset,
-			path,
+			firstName: '',
+			lastName: '',
+			text: '',
+			position: '',
+			imgOffset: '',
+			path: '',
 		});
+
+		const fetchData = async (id = props.id) => {
+			const data = await Persons.getById(id);
+			const path = resovlePath(data.imgSrc);
+			person.path = path;
+			person.firstName = data.firstName;
+			person.lastName = data.lastName;
+			person.text = data.text;
+			person.position = data.position;
+			person.imgOffset = data.imgOffset;
+		};
+
+		fetchData();
 
 		watch(
 			() => props.id,
 			(newValue) => {
-				const updated = fetchPersonData(newValue);
-				person.firstName = updated.firstName;
-				person.lastName = updated.lastName;
-				person.text = updated.text;
-				person.position = updated.position;
-				person.path = resovlePath(updated.imgSrc);
-				person.imgOffset = updated.imgOffset;
+				fetchData(newValue);
 			}
 		);
 
@@ -213,18 +211,5 @@ figure.snip0057.hover:before {
 	100% {
 		left: 0px;
 	}
-}
-
-html {
-	height: 100%;
-}
-body {
-	background-color: #212121;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	flex-flow: wrap;
-	margin: 0;
-	height: 100%;
 }
 </style>

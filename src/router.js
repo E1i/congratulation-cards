@@ -1,5 +1,5 @@
 import { createWebHistory, createRouter } from 'vue-router';
-import persons from './persons';
+// import persons from './persons';
 import HelloWorld from './components/HelloWorld.vue';
 import PersonCard from './components/PersonCard.vue';
 
@@ -9,18 +9,13 @@ const routes = [
 		name: 'HelloWorld',
 		component: HelloWorld,
 	},
-];
-
-persons.forEach(({ id }) => {
-	routes.push({
-		path: `/${id}`,
-		name: `PersonCard-${id}`,
+	{
+		path: '/:id',
+		name: 'PersonCard',
 		component: PersonCard,
-		props: {
-			id,
-		},
-	});
-});
+		props: true,
+	},
+];
 
 const router = createRouter({
 	history: createWebHistory(),
